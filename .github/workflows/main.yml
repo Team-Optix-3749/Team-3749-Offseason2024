@@ -27,6 +27,9 @@ jobs:
     - name: Add repository to git safe directories
       run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
+    - name: Navigate to project directory
+      run: cd ./Offseason
+
     # Grant execute permission for gradlew
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
