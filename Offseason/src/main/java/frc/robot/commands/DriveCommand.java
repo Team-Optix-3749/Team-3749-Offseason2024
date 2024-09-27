@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.tank.Tank;
 import java.sql.Driver;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import frc.robot.Robot;
@@ -25,16 +26,21 @@ import frc.robot.Robot;
  *         Default command to control the SwervedriveSubsystem with joysticks
  */
 
-public class Teleop extends Command {
+public class DriveCommand extends Command {
 
-    @Override
-    public void initialize() {
+   private DoubleSupplier leftSpeed;
+    private DoubleSupplier rightSpeed;
 
+    public DriveCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed)
+    {
+        this.leftSpeed = leftSpeed;
+        this.rightSpeed = rightSpeed;
+        addRequirements(Robot.TankDrive);
     }
 
     @Override
     public void execute() {
-        
+        Robot.TankDrive.setVoltage(leftSpeed.getAsDouble(),rightSpeed.getAsDouble());
     }
 
     @Override
