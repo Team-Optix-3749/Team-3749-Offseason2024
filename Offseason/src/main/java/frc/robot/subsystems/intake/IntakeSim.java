@@ -1,10 +1,10 @@
-package frc.robot.subsystems.tank;
+package frc.robot.subsystems.intake;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.RobotConstants;
 
-public class TankSim implements TankIO
+public class IntakeSim implements IntakeIO
 {
     private FlywheelSim leftMotor = new FlywheelSim(DCMotor.getCIM(2),1,0.04);
     private FlywheelSim rightMotor = new FlywheelSim(DCMotor.getCIM(2),1,0.04);
@@ -12,7 +12,7 @@ public class TankSim implements TankIO
     private double leftGoalVolts = 0;
     private double rightGoalVolts = 0;
 
-    public TankSim()
+    public IntakeSim()
     {
 
     }

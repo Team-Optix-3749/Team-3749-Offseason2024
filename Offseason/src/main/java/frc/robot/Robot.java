@@ -7,10 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.tank.Tank;
+import frc.robot.subsystems.intake.Intake;
 
 public class Robot extends TimedRobot {
-  public static Tank TankDrive = new Tank();
+  public static Intake TankDrive = new Intake();
 
   private Command m_autonomousCommand;
 

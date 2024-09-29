@@ -1,9 +1,9 @@
-package frc.robot.subsystems.tank;
+package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class TankTalon implements TankIO{
+public class IntakeTalon implements IntakeIO{
 
     //do not run this until device numbers have ben figured out
     //if you do i will be very sad :(
@@ -12,12 +12,12 @@ public class TankTalon implements TankIO{
     //also this relies on percentoutput instead of voltage and speed stuff so uh
     //TODO: fix that
 
-    private TalonSRX FrontLeftMotor = new TalonSRX(TankConstants.deviceNumbers.frontLeft);
-    private TalonSRX BackLeftMotor = new TalonSRX(TankConstants.deviceNumbers.backLeft);
-    private TalonSRX FrontRightMotor = new TalonSRX(TankConstants.deviceNumbers.frontRight);
-    private TalonSRX BackRightMotor = new TalonSRX(TankConstants.deviceNumbers.backRight);
+    private TalonSRX FrontLeftMotor = new TalonSRX(IntakeConstants.deviceNumbers.frontLeft);
+    private TalonSRX BackLeftMotor = new TalonSRX(IntakeConstants.deviceNumbers.backLeft);
+    private TalonSRX FrontRightMotor = new TalonSRX(IntakeConstants.deviceNumbers.frontRight);
+    private TalonSRX BackRightMotor = new TalonSRX(IntakeConstants.deviceNumbers.backRight);
 
-    public TankTalon()
+    public IntakeTalon()
     {
         FrontLeftMotor.setInverted(true);
         BackLeftMotor.setInverted(true);

@@ -1,9 +1,9 @@
-package frc.robot.subsystems.tank;
+package frc.robot.subsystems.intake;
 
 
 //Variables that will NEVER change. DO NOT put PID, Encoder offsets, etc. in here.
 //ex. Track width. Wheel Diameter
-public class TankConstants {
+public class IntakeConstants {
     public static class deviceNumbers
     {
         public static int frontLeft = 0;

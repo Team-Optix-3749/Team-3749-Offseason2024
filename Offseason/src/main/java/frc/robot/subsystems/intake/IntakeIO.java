@@ -1,6 +1,6 @@
-package frc.robot.subsystems.tank;
+package frc.robot.subsystems.intake;
 
-public interface TankIO {
+public interface IntakeIO {
     public static class TankData {
         public double leftVolts = 0.0; 
         public double rightVolts = 0.0;
