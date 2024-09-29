@@ -6,8 +6,8 @@ import frc.robot.RobotConstants;
 
 public class TankSim implements TankIO
 {
-    private FlywheelSim leftMotor = new FlywheelSim(DCMotor.getNEO(2),1,0.04);
-    private FlywheelSim rightMotor = new FlywheelSim(DCMotor.getNEO(2),1,0.04);
+    private FlywheelSim leftMotor = new FlywheelSim(DCMotor.getCIM(2),1,0.04);
+    private FlywheelSim rightMotor = new FlywheelSim(DCMotor.getCIM(2),1,0.04);
 
     private double leftGoalVolts = 0;
     private double rightGoalVolts = 0;
