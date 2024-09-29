@@ -35,11 +35,19 @@ public class Tank extends SubsystemBase {
 
     public void setVoltage(double leftVoltage, double rightVoltage)
     {
-        tankIO.setVoltage(0);
+        tankIO.setVoltage(leftVoltage,rightVoltage);
+    }
+
+    public double[] getVoltage()
+    {
+        double[] data = {tankData.leftVolts,tankData.rightVolts};
+        return data;
     }
 
     @Override
     public void periodic() {
         tankIO.updateData(tankData);
+        SmartDashboard.putNumber("leftVoltage", getVoltage()[0]);
+        SmartDashboard.putNumber("rightVoltage", getVoltage()[1]);
     }
 }

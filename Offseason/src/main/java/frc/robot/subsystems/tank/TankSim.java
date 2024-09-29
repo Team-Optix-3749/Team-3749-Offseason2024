@@ -6,10 +6,11 @@ import frc.robot.RobotConstants;
 
 public class TankSim implements TankIO
 {
-    private FlywheelSim frontLeft = new FlywheelSim(DCMotor.getNEO(1),1,0.04);
-    private FlywheelSim backLeft = new FlywheelSim(DCMotor.getNEO(1),1,0.04);
-    private FlywheelSim frontRight = new FlywheelSim(DCMotor.getNEO(1),1,0.04);
-    private FlywheelSim backRight = new FlywheelSim(DCMotor.getNEO(1),1,0.04);
+    private FlywheelSim leftMotor = new FlywheelSim(DCMotor.getNEO(2),1,0.04);
+    private FlywheelSim rightMotor = new FlywheelSim(DCMotor.getNEO(2),1,0.04);
+
+    private double leftGoalVolts = 0;
+    private double rightGoalVolts = 0;
 
     public TankSim()
     {
@@ -18,15 +19,19 @@ public class TankSim implements TankIO
 
     @Override
     public void updateData(TankData data) {
-        frontLeft.update(RobotConstants.Sim.loopPeriodSec);
-        backLeft.update(RobotConstants.Sim.loopPeriodSec);
-        backRight.update(RobotConstants.Sim.loopPeriodSec);
-        frontRight.update(RobotConstants.Sim.loopPeriodSec);
+        leftMotor.update(RobotConstants.Sim.loopPeriodSec);
+        rightMotor.update(RobotConstants.Sim.loopPeriodSec);
+        
+        data.leftVolts = leftGoalVolts;
+        data.rightVolts = rightGoalVolts;
     }
 
     @Override
-    public void setVoltage(double tankVolts) {
-        frontLeft.setInputVoltage(tankVolts);
+    public void setVoltage(double leftTankVolts,double rightTankVolts) {
+        leftGoalVolts = leftTankVolts;
+        rightGoalVolts = rightTankVolts;
+        leftMotor.setInputVoltage(leftGoalVolts);
+        rightMotor.setInputVoltage(rightGoalVolts);
     }
 
 }

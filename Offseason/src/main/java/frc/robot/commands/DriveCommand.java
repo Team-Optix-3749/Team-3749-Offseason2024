@@ -1,23 +1,8 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.tank.Tank;
-import java.sql.Driver;
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
-
-import frc.robot.Robot;
 
 /***
  * @author Noah Simon
@@ -40,7 +25,9 @@ public class DriveCommand extends Command {
 
     @Override
     public void execute() {
-        Robot.TankDrive.setVoltage(leftSpeed.getAsDouble(),rightSpeed.getAsDouble());
+        double finalLeft = Math.abs(leftSpeed.getAsDouble()) < 0.1 ? 0 : leftSpeed.getAsDouble();
+        double finalRight = Math.abs(rightSpeed.getAsDouble()) < 0.1 ? 0 : rightSpeed.getAsDouble();
+        Robot.TankDrive.setVoltage(finalLeft,finalRight);
     }
 
     @Override
