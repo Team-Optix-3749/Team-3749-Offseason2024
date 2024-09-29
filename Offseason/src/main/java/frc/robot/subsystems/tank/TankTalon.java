@@ -36,8 +36,8 @@ public class TankTalon implements TankIO{
         FrontLeftMotor.set(TalonSRXControlMode.PercentOutput,leftTankVolts);
         BackLeftMotor.set(TalonSRXControlMode.PercentOutput,leftTankVolts);
 
-        FrontRightMotor.set(TalonSRXControlMode.PercentOutput,leftTankVolts);
-        BackRightMotor.set(TalonSRXControlMode.PercentOutput,leftTankVolts);
+        FrontRightMotor.set(TalonSRXControlMode.PercentOutput,rightTankVolts);
+        BackRightMotor.set(TalonSRXControlMode.PercentOutput,rightTankVolts);
     }
 
 
