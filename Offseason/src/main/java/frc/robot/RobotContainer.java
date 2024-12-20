@@ -11,16 +11,19 @@ import frc.robot.commands.DriveCommand;
 
 public class RobotContainer {
 
-private final CommandXboxController m_driverController =
-      new CommandXboxController(RobotConstants.OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController driverController = new CommandXboxController(
+      RobotConstants.OperatorConstants.kDriverControllerPort);
 
   public RobotContainer() {
     configureBindings();
   }
 
   private void configureBindings() {
-
-    Robot.TankDrive.setDefaultCommand(new DriveCommand(m_driverController::getLeftY, m_driverController::getRightY)); 
+    Robot.TankDrive.setDefaultCommand(new DriveCommand(() -> {
+      return driverController.getLeftX() * -1;
+    }, () -> {
+      return driverController.getLeftY() * -1;
+    }));
   }
 
   public Command getAutonomousCommand() {

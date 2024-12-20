@@ -1,44 +1,69 @@
 package frc.robot.subsystems.tank;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class TankTalon implements TankIO{
+import edu.wpi.first.math.MathUtil;
 
-    //do not run this until device numbers have ben figured out
-    //if you do i will be very sad :(
-    //put device numbers in tankconstants
+public class TankTalon implements TankIO {
+    private TalonSRX frontLeftMotor = new TalonSRX(TankConstants.MotorIDs.frontLeft);
+    private TalonSRX backLeftMotor = new TalonSRX(TankConstants.MotorIDs.backLeft);
+    private TalonSRX frontRightMotor = new TalonSRX(TankConstants.MotorIDs.frontRight);
+    private TalonSRX backRightMotor = new TalonSRX(TankConstants.MotorIDs.backRight);
 
-    //also this relies on percentoutput instead of voltage and speed stuff so uh
-    //TODO: fix that
+    public TankTalon() {
+        frontLeftMotor.setInverted(true);
+        backLeftMotor.setInverted(true);
 
-    private TalonSRX FrontLeftMotor = new TalonSRX(TankConstants.deviceNumbers.frontLeft);
-    private TalonSRX BackLeftMotor = new TalonSRX(TankConstants.deviceNumbers.backLeft);
-    private TalonSRX FrontRightMotor = new TalonSRX(TankConstants.deviceNumbers.frontRight);
-    private TalonSRX BackRightMotor = new TalonSRX(TankConstants.deviceNumbers.backRight);
-
-    public TankTalon()
-    {
-        FrontLeftMotor.setInverted(true);
-        BackLeftMotor.setInverted(true);
+        frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+        frontRightMotor.setNeutralMode(NeutralMode.Brake);
+        backLeftMotor.setNeutralMode(NeutralMode.Brake);
+        backRightMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
     public void updateData(TankData data) {
-        
-        data.leftVolts = FrontLeftMotor.getBusVoltage();
-        data.rightVolts = FrontRightMotor.getBusVoltage();
+        data.leftVolts = frontLeftMotor.getBusVoltage();
+        data.rightVolts = frontRightMotor.getBusVoltage();
+
+        //! Likely DOES NOT WORK! This is copilot code, check docs for how to actually get speed
+        data.leftVelocityRadPerSec = frontLeftMotor.getSelectedSensorVelocity() * 2 * Math.PI / 4096;
+        data.rightVelocityRadPerSec = frontRightMotor.getSelectedSensorVelocity() * 2 * Math.PI / 4096;
     }
 
     @Override
-    public void setVoltage(double leftTankVolts,double rightTankVolts) 
-    {
-        FrontLeftMotor.set(TalonSRXControlMode.PercentOutput,leftTankVolts);
-        BackLeftMotor.set(TalonSRXControlMode.PercentOutput,leftTankVolts);
+    public void setVoltage(double leftTankVolts, double rightTankVolts) {
+        double percentOutput_l = leftTankVolts / TankConstants.maxVoltage;
+        double percentOutput_r = rightTankVolts / TankConstants.maxVoltage;
 
-        FrontRightMotor.set(TalonSRXControlMode.PercentOutput,rightTankVolts);
-        BackRightMotor.set(TalonSRXControlMode.PercentOutput,rightTankVolts);
+        percentOutput_l = MathUtil.clamp(percentOutput_l, -1, 1);
+        percentOutput_r = MathUtil.clamp(percentOutput_r, -1, 1);
+
+        frontLeftMotor.set(TalonSRXControlMode.PercentOutput, percentOutput_l);
+        backLeftMotor.set(TalonSRXControlMode.PercentOutput, percentOutput_l);
+
+        frontRightMotor.set(TalonSRXControlMode.PercentOutput, percentOutput_r);
+        backRightMotor.set(TalonSRXControlMode.PercentOutput, percentOutput_r);
     }
 
+    @Override
+    public void setLeftVoltage(double leftTankVolts) {
+        double percentOutput = leftTankVolts / TankConstants.maxVoltage;
 
+        percentOutput = MathUtil.clamp(percentOutput, -1, 1);
+
+        frontLeftMotor.set(TalonSRXControlMode.PercentOutput, leftTankVolts);
+        backLeftMotor.set(TalonSRXControlMode.PercentOutput, leftTankVolts);
+    }
+
+    @Override
+    public void setRightVoltage(double rightTankVolts) {
+        double percentOutput = rightTankVolts / TankConstants.maxVoltage;
+
+        percentOutput = MathUtil.clamp(percentOutput, -1, 1);
+
+        frontRightMotor.set(TalonSRXControlMode.PercentOutput, rightTankVolts);
+        backRightMotor.set(TalonSRXControlMode.PercentOutput, rightTankVolts);
+    }
 }

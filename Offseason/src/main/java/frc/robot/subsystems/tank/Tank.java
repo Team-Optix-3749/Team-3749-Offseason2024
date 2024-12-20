@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems.tank;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
@@ -11,36 +13,33 @@ import frc.robot.subsystems.tank.TankIO.TankData;
 public class Tank extends SubsystemBase {
     private TankIO tankIO;
     private TankData tankData = new TankData();
-   
-    public Tank()
-    {
+    public DifferentialDrive drivetrain = new DifferentialDrive(
+            tankIO::setLeftVoltage,
+            tankIO::setRightVoltage);
+
+    public Tank() {
         tankIO = new TankTalon();
-        if(Robot.isSimulation())
-        {
+        if (Robot.isSimulation()) {
             tankIO = new TankSim();
         }
+
+        drivetrain.setMaxOutput(12);
     }
 
-    public void stopModules()
-    {
-
+    public void stopModules() {
+        drivetrain.arcadeDrive(0, 0);
     }
 
-    public void setVoltage(double leftVoltage, double rightVoltage)
-    {
-        tankIO.setVoltage(leftVoltage,rightVoltage);
-    }
-
-    public double[] getVoltage()
-    {
-        double[] data = {tankData.leftVolts,tankData.rightVolts};
+    public double[] getVoltage() {
+        double[] data = { tankData.leftVolts, tankData.rightVolts };
         return data;
     }
 
     @Override
     public void periodic() {
         tankIO.updateData(tankData);
-        SmartDashboard.putNumber("leftVoltage", getVoltage()[0]);
-        SmartDashboard.putNumber("rightVoltage", getVoltage()[1]);
+
+        SmartDashboard.putNumber("tank/Left Voltage", tankData.leftVolts);
+        SmartDashboard.putNumber("tank/Right Voltage", tankData.rightVolts);
     }
 }

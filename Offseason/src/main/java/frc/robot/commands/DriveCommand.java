@@ -1,38 +1,41 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.tank.Tank;
+
 import java.util.function.DoubleSupplier;
 
-/***
- * @author Noah Simon
- * @author Raadwan Masum
- * @author Rohin Sood
- *         Default command to control the SwervedriveSubsystem with joysticks
- */
-
 public class DriveCommand extends Command {
+    Tank tank = Robot.TankDrive;
 
-   private DoubleSupplier leftSpeed;
-    private DoubleSupplier rightSpeed;
+    private DoubleSupplier joystickX;
+    private DoubleSupplier joystickY;
 
-    public DriveCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed)
-    {
-        this.leftSpeed = leftSpeed;
-        this.rightSpeed = rightSpeed;
+    public DriveCommand(DoubleSupplier joystickX, DoubleSupplier joystickY) {
+        this.joystickX = joystickX;
+        this.joystickY = joystickY;
         addRequirements(Robot.TankDrive);
     }
 
     @Override
     public void execute() {
-        double finalLeft = Math.abs(leftSpeed.getAsDouble()) < 0.1 ? 0 : leftSpeed.getAsDouble();
-        double finalRight = Math.abs(rightSpeed.getAsDouble()) < 0.1 ? 0 : rightSpeed.getAsDouble();
-        Robot.TankDrive.setVoltage(finalLeft,finalRight);
+        double drivePercent = 0.0;
+        double rotationPercent = 0.0;
+
+        double joystickX = this.joystickX.getAsDouble();
+        double joystickY = this.joystickY.getAsDouble();
+
+        drivePercent = MathUtil.clamp(joystickX, -1, 1);
+        rotationPercent = MathUtil.clamp(joystickY, -1, 1);
+
+        tank.drivetrain.arcadeDrive(drivePercent, rotationPercent);
     }
 
     @Override
     public void end(boolean interrupted) {
-        Robot.TankDrive.stopModules();
+        tank.stopModules();
     }
 
     @Override
