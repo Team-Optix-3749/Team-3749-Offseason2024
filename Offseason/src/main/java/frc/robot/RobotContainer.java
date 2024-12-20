@@ -20,7 +20,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     Robot.TankDrive.setDefaultCommand(new DriveCommand(() -> {
-      return driverController.getLeftX() * 1;
+      return driverController.getRightX() * 1;
     }, () -> {
       return driverController.getLeftY() * -1;
     }));
