@@ -8,14 +8,6 @@ public interface TankIO {
         public double rightVolts = 0.0;
         public double leftVelocityRadPerSec = 0.0;
         public double rightVelocityRadPerSec = 0.0;
-        //because we are feeding the same voltage into the 2 left motors/right motors this should be fine
-        //if not uhhhhh
-
-        /* 
-        public double tankTempCelcius = 0.0;
-        public double tankCurrentAmps = 0.0; 
-        lets figure out what to do about this at some point
-        */
     }
 
     MotorController setLeftVoltage = null;

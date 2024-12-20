@@ -13,8 +13,17 @@ public class TankTalon implements TankIO {
     private TalonSRX backRightMotor = new TalonSRX(TankConstants.MotorIDs.backRight);
 
     public TankTalon() {
-        frontLeftMotor.setInverted(true);
-        backLeftMotor.setInverted(true);
+        boolean leftInverted = TankConstants.inversion[0];
+        boolean rightInverted = TankConstants.inversion[1];
+
+        if(leftInverted) {
+            frontLeftMotor.setInverted(true);
+            backLeftMotor.setInverted(true);
+        }
+        if(rightInverted) {
+            frontRightMotor.setInverted(true);
+            backRightMotor.setInverted(true);
+        }
 
         frontLeftMotor.setNeutralMode(NeutralMode.Brake);
         frontRightMotor.setNeutralMode(NeutralMode.Brake);

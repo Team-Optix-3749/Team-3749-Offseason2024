@@ -13,15 +13,18 @@ import frc.robot.subsystems.tank.TankIO.TankData;
 public class Tank extends SubsystemBase {
     private TankIO tankIO;
     private TankData tankData = new TankData();
-    public DifferentialDrive drivetrain = new DifferentialDrive(
-            tankIO::setLeftVoltage,
-            tankIO::setRightVoltage);
+    public DifferentialDrive drivetrain;
 
     public Tank() {
         tankIO = new TankTalon();
         if (Robot.isSimulation()) {
             tankIO = new TankSim();
         }
+
+        drivetrain = new DifferentialDrive(
+                (double v) -> tankIO.setLeftVoltage(v * -1), // diff drive automatically inverts voltages on left
+                tankIO::setRightVoltage);
+        drivetrain.setDeadband(TankConstants.deadband);
 
         drivetrain.setMaxOutput(12);
     }
